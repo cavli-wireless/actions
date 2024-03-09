@@ -1,0 +1,21 @@
+name: Make release
+description: Make release
+
+inputs:
+  tag_name:
+    description: Set product to compile
+    required: true
+    type: string
+  target_name:
+    description: Set chipcode module to compile
+    required: true
+    type: string
+
+runs:
+  using: composite
+  steps:
+    - name: Clone code to working directory.
+      shell: bash
+      run: |
+        echo "tag_name=${{ input.tag_name }}"
+        echo "target_name=${{ input.target_name }}"
