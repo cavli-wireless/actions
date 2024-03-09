@@ -17,7 +17,8 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: |
+    - shell: bash
+      run: |
         echo "tag_name=${{ inputs.tag_name }}"
         echo "target_name=${{ inputs.target_name }}"
         sudo chown $(whoami) -R $(pwd)
