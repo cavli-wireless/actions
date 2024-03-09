@@ -13,7 +13,7 @@ inputs:
   branch:
     required: true
     type: string
-s
+
 runs:
   using: composite
   steps:
