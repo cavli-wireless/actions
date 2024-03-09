@@ -10,7 +10,10 @@ inputs:
     description: Set chipcode module to compile
     required: true
     type: string
-
+  branch:
+    required: true
+    type: string
+s
 runs:
   using: composite
   steps:
@@ -19,3 +22,8 @@ runs:
       run: |
         echo "tag_name=${{ inputs.tag_name }}"
         echo "target_name=${{ inputs.target_name }}"
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch }}
+        fetch-depth: 1
+        lfs: true
