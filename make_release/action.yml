@@ -35,7 +35,8 @@ runs:
         git fetch origin feature/github_workflow
         git checkout origin/feature/github_workflow -- .github build
       shell: bash
-    - run: |
+    - shell: bash
+      run: |
         git config user.name "Cavli Server"
         git config user.email "cavliserver@cavliwireless.com"
         echo "Cherry Pick commit to disable RAMDUMP"
