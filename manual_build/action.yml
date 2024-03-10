@@ -1,0 +1,33 @@
+name: Manual build
+description: Manual build
+
+inputs:
+      tag_name:
+        required: true
+        type: string
+      hardware_version:
+        required: true
+        type: string
+      production:
+        required: true
+        type: string
+      build_module:
+        required: true
+        type: string
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch }}
+        fetch-depth: 1
+        lfs: true
+    - run: |
+        git fetch origin feature/github_workflow
+        git checkout origin/feature/github_workflow -- .github build
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} release
+        tar -vczf MDM9607_MANUAL_BUILD_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tar.gz binaries_out
+        mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+        cp MDM9607_MANUAL_BUILD_*.tar.gz /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+      shell: bash
