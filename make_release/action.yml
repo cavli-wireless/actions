@@ -41,8 +41,8 @@ runs:
     - run: |
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
-        gh release upload ${{ inputs.tag_name }} 
-        gh auth logout -u github-actions[bot] mdm9607_release_*.tgz
+        gh release upload ${{ inputs.tag_name }} mdm9607_release_*.tgz
+        gh auth logout -u github-actions[bot]
         rm .token.txt
       shell: bash
       env:
