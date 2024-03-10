@@ -42,6 +42,7 @@ runs:
         gh release create ${{ inputs.tag_name }} --generate-notes --target ${{ inputs.branch }}
         gh auth logout
         rm .token.txt
+      shell: bash
       env:
         GH_TOKEN: ${{ env.GH_TOKEN }}
 
