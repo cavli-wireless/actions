@@ -38,6 +38,6 @@ runs:
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
         gh release create ${{ inputs.tag_name }} --generate-notes --target ${{ inputs.branch }}
-        env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+      env:
+        GH_TOKEN: ${{ env.GH_TOKEN }}
 
