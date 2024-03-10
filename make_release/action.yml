@@ -34,18 +34,12 @@ runs:
     - run: |
         git fetch origin feature/github_workflow
         git checkout origin/feature/github_workflow -- .github build
-      shell: bash
-    - run: |
         git config user.name "Cavli Server"
         git config user.email "cavliserver@cavliwireless.com"
         echo "Cherry Pick commit to disable RAMDUMP"
         git cherry-pick 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
-      shell: bash
-    - run: |
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.target_name }} all release
         tar -vczf mdm9607_release_${{ inputs.target_name }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tgz binaries_out
-      shell: bash
-    - run: |
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
         gh release upload ${{ inputs.tag_name }} mdm9607_release_*.tgz --clobber
