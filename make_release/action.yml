@@ -23,6 +23,7 @@ runs:
     - run: |
         echo "tag_name=${{ inputs.tag_name }}"
         echo "target_name=${{ inputs.target_name }}"
+        echo "sudo chown $(whoami) -R $(pwd)"
         sudo chown $(whoami) -R $(pwd)
       shell: bash
     - uses: actions/checkout@v3
