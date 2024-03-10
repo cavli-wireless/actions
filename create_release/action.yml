@@ -1,0 +1,43 @@
+name: Create release
+description: Create release
+
+inputs:
+  tag_name:
+    description: Set product to compile
+    required: true
+    type: string
+  branch:
+    required: true
+    type: string
+  overwrite_tags:
+    description: 'Overwrite tag if existed'
+    type: boolean
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        echo "tag_name=${{ inputs.tag_name }}"
+        echo "target_name=${{ inputs.target_name }}"
+        sudo chown $(whoami) -R $(pwd)
+      shell: bash
+    - run: |
+        cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
+        echo "Check tag ${TAG_NAME} is exist or not"
+        if [[ $( gh release list | grep "${{ inputs.tag_name }}" ) ]]
+        then
+          if [[ ${{ inputs.overwrite_tags }} == "true" ]]
+          then
+            echo "Removing existing tag: ${{ inputs.tag_name }} "
+            gh release delete ${{ inputs.tag_name }} -y
+          else
+            echo "Tag exists: ${{ inputs.tag_name }} "
+            exit 1
+          fi
+        fi
+        echo "Creating new tag: ${TAG_NAME} ..."
+        gh release create ${{ inputs.tag_name }} --generate-notes --target ${{ inputs.branch }}
+        env:
+          GH_TOKEN: ${{ env.GH_TOKEN }}
+

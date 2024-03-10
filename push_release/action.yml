@@ -22,14 +22,7 @@ runs:
         echo "target_name=${{ inputs.target_name }}"
         sudo chown $(whoami) -R $(pwd)
       shell: bash
-    # - uses: actions/checkout@v3
-    #   with:
-    #     ref: ${{ inputs.branch }}
-    #     fetch-depth: 1
-    #     lfs: true
-    # - run: |
-    #     git fetch origin feature/github_workflow
-    #     git checkout origin/feature/github_workflow -- .github build
-    #   shell: bash
-    # - run: bash build/build.sh ${{ inputs.tag_name }} v1 c10qm all verify
-    #   shell: bash
+    - run: |
+        git fetch origin feature/github_workflow
+        git checkout origin/feature/github_workflow -- .github build
+      shell: bash
