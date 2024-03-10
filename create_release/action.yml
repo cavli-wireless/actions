@@ -23,7 +23,7 @@ runs:
         sudo chown $(whoami) -R $(pwd)
       shell: bash
     - run: |
-        echo "${{ secrets.GITHUB_TOKEN }}" > .token.txt
+        echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
         cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
         echo "Check tag ${TAG_NAME} is exist or not"
