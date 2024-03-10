@@ -23,6 +23,8 @@ runs:
         sudo chown $(whoami) -R $(pwd)
       shell: bash
     - run: |
+        echo "${{ github.token }}" > .token.txt
+        gh auth login --with-token < .token.txt
         cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
         echo "Check tag ${TAG_NAME} is exist or not"
         if [[ $( gh release list | grep "${{ inputs.tag_name }}" ) ]]
@@ -38,6 +40,8 @@ runs:
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
         gh release create ${{ inputs.tag_name }} --generate-notes --target ${{ inputs.branch }}
+        gh auth logout
+        rm .token.txt
       env:
         GH_TOKEN: ${{ env.GH_TOKEN }}
 
