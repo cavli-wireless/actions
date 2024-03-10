@@ -13,6 +13,9 @@ inputs:
   branch:
     required: true
     type: string
+  hardware_version:
+    required: true
+    type: string
 
 runs:
   using: composite
@@ -22,14 +25,25 @@ runs:
         echo "target_name=${{ inputs.target_name }}"
         sudo chown $(whoami) -R $(pwd)
       shell: bash
-    # - uses: actions/checkout@v3
-    #   with:
-    #     ref: ${{ inputs.branch }}
-    #     fetch-depth: 1
-    #     lfs: true
-    # - run: |
-    #     git fetch origin feature/github_workflow
-    #     git checkout origin/feature/github_workflow -- .github build
-    #   shell: bash
-    # - run: bash build/build.sh ${{ inputs.tag_name }} v1 c10qm all verify
-    #   shell: bash
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch }}
+        fetch-depth: 1
+        lfs: true
+    - run: |
+        git fetch origin feature/github_workflow
+        git checkout origin/feature/github_workflow -- .github build
+      shell: bash
+    - run: |
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.target_name }} all release
+        tar -vczf mdm9607_release_${{ inputs.target_name }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tgz binaries_out
+      shell: bash
+    - run: |
+        echo "${{ github.token }}" > .token.txt
+        gh auth login --with-token < .token.txt
+        gh release upload ${{ inputs.tag_name }} 
+        gh auth logout -u github-actions[bot] mdm9607_release_*.tgz
+        rm .token.txt
+      shell: bash
+      env:
+        GH_TOKEN: ${{ env.GH_TOKEN }}
