@@ -20,6 +20,9 @@ inputs:
   upload:
     required: true
     type: string
+  release_type:
+    required: true
+    type: string
 
 runs:
   using: composite
@@ -45,9 +48,9 @@ runs:
           fi
         fi
 
-        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} release
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
 
-        if [[ ${{ inputs.upload }} == "google_drive" ]]
+        if [[ ${{ inputs.release_type }} == "prerelease" ]]
         then
           zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
           mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
