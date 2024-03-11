@@ -14,6 +14,12 @@ inputs:
   build_module:
     required: true
     type: string
+  disable_ramdump:
+    type: boolean
+    required: false
+  upload:
+    required: true
+    type: string
 
 runs:
   using: composite
@@ -26,8 +32,27 @@ runs:
     - run: |
         git fetch origin feature/github_workflow
         git checkout origin/feature/github_workflow -- .github build
+
+        if [[ ${{ inputs.disable_ramdump }} ]]
+        then
+          git format-patch -1 1a7f2024bb1
+          if patch -p1 < $patch_file --dry-run; then
+              echo "Patch applied successfully"
+              patch -p1 < $patch_file
+          else
+              echo "Failed to apply patch"
+              exit -1
+          fi
+        fi
+
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} release
-        tar -vczf MDM9607_MANUAL_BUILD_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tar.gz binaries_out
-        mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
-        cp MDM9607_MANUAL_BUILD_*.tar.gz /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+
+        if [[ ${{ inputs.upload }} == "google_drive" ]]
+        then
+          zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
+          mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+          cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+        fi
+
+
       shell: bash
