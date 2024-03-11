@@ -45,10 +45,10 @@ runs:
             exit -1
         fi
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.target_name }} all release
-        tar -vczf mdm9607_release_${{ inputs.target_name }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tgz binaries_out
+        zip -r mdm9607_release_${{ inputs.target_name }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
-        gh release upload "Release_MDM9607_${{ inputs.tag_name }}" mdm9607_release_*.tgz --clobber
+        gh release upload "Release_MDM9607_${{ inputs.tag_name }}" mdm9607_release_*.zip --clobber
         gh auth logout -u github-actions[bot]
         rm .token.txt
       shell: bash
