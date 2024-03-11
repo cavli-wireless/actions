@@ -33,13 +33,17 @@ runs:
         lfs: true
     - run: |
         git fetch origin feature/github_workflow
-        git config user.name "Cavli Server"
-        git config user.email "cavliserver@cavliwireless.com"
-        echo "Cherry Pick commit to disable RAMDUMP"
         git reset --hard
         git clean -fdx
-        git cherry-pick 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
         git checkout origin/feature/github_workflow -- .github build
+        git format-patch -1 1a7f2024bb1
+        if patch -p1 < $patch_file --dry-run; then
+            echo "Patch applied successfully"
+            patch -p1 < $patch_file
+        else
+            echo "Failed to apply patch"
+            exit -1
+        fi
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.target_name }} all release
         tar -vczf mdm9607_release_${{ inputs.target_name }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.tgz binaries_out
         echo "${{ github.token }}" > .token.txt
