@@ -37,7 +37,7 @@ runs:
         git fetch origin feature/github_workflow
         git fetch origin quangtv-dev
         git checkout origin/feature/github_workflow -- .github build
-        git format-patch -p1 1a7f2024bb1
+        git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
         if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
             echo "Patch applied successfully"
             patch -p1 < 0001-sbl-support-disable-ramdump.patch
