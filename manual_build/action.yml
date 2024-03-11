@@ -39,9 +39,9 @@ runs:
         if [[ ${{ inputs.disable_ramdump }} ]]
         then
           git format-patch -1 1a7f2024bb1
-          if patch -p1 < $patch_file --dry-run; then
+          if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
               echo "Patch applied successfully"
-              patch -p1 < $patch_file
+              patch -p1 < 0001-sbl-support-disable-ramdump.patch
           else
               echo "Failed to apply patch"
               exit -1
