@@ -58,5 +58,4 @@ runs:
           cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
         fi
 
-
       shell: bash
