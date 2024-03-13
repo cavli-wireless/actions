@@ -37,24 +37,41 @@ runs:
         lfs: true
     - run: |
         sudo apt install jq -y
-        env
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
+      shell: bash
+    - run: |
         base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
         head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
         echo "base_branch=$base_branch"
         echo "head_branch=$head_branch"
-
+      shell: bash
+    - run: |
         git fetch origin feature/github_workflow
+      shell: bash
+    - run: |
         git fetch origin quangtv-dev
+      shell: bash
+    - run: |
         git fetch origin $base_branch
+      shell: bash
+    - run: |
         git fetch origin $head_branch
+      shell: bash
+    - run: |
         git reset --hard
         git clean -fdx
+      shell: bash
+    - run: |
         git checkout origin/$base_branch
+      shell: bash
+    - run: |
         git merge origin/$head_branch
+      shell: bash
+    - run: |
         git checkout origin/feature/github_workflow -- .github build
-
+      shell: bash
+    - run: |
         if [[ ${{ inputs.disable_ramdump }} ]]
         then
           git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
