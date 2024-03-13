@@ -18,25 +18,26 @@ runs:
   using: composite
   steps:
     - run: |
+        TAG_NAME="Release_MDM9607_${{ inputs.tag_name }}"
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
         cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
         echo "Check tag ${TAG_NAME} is exist or not"
-        if [[ $( gh release list --repo ${{ github.repository }} | grep "Release_MDM9607_${{ inputs.tag_name }}" ) ]]
+        if [[ $( gh release list --repo ${{ github.repository }} | grep  ${TAG_NAME} ) ]]
         then
           if [[ ${{ inputs.overwrite_tags }} == "true" ]]
           then
             echo "Removing existing tag: ${{ inputs.tag_name }} "
             gh release delete \
                 --repo ${{ github.repository }} \
-                "Release_MDM9607_${{ inputs.tag_name }}" -y
+                 ${TAG_NAME} -y
           else
-            echo "Tag exists:"Release_MDM9607_${{ inputs.tag_name }}" "
+            echo "Tag exists: ${TAG_NAME} "
             exit 1
           fi
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
-        gh release create "Release_MDM9607_${{ inputs.tag_name }}" \
+        gh release create  ${TAG_NAME} \
                           --generate-notes \
                           --target ${{ inputs.branch }} \
                           --repo ${{ github.repository }}
