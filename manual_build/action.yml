@@ -36,15 +36,10 @@ runs:
         fetch-depth: 1
         lfs: true
     - run: |
+        env
         sudo apt install jq -y
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
-      shell: bash
-    - run: |
-        base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
-        head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
-        echo "base_branch=$base_branch"
-        echo "head_branch=$head_branch"
       shell: bash
     - run: |
         git fetch origin feature/github_workflow
@@ -53,19 +48,15 @@ runs:
         git fetch origin quangtv-dev
       shell: bash
     - run: |
+        base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
+        head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
+        echo "base_branch=$base_branch"
+        echo "head_branch=$head_branch"
         git fetch origin $base_branch
-      shell: bash
-    - run: |
         git fetch origin $head_branch
-      shell: bash
-    - run: |
         git reset --hard
         git clean -fdx
-      shell: bash
-    - run: |
         git checkout origin/$base_branch
-      shell: bash
-    - run: |
         git merge origin/$head_branch
       shell: bash
     - run: |
