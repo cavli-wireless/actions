@@ -76,5 +76,5 @@ runs:
         #   cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
         # fi
         gh auth logout -u github-actions[bot]
-        rm .token.txt
+        rm -f .token.txt
       shell: bash
