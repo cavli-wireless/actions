@@ -27,6 +27,7 @@ runs:
       with:
         ref: ${{ inputs.branch }}
         lfs: true
+        fetch-depth: 0
     - run: |
     
         echo "cd  ${GITHUB_WORKSPACE}"
