@@ -30,10 +30,12 @@ runs:
         fetch-depth: 0
     - run: |
         cd  ${GITHUB_WORKSPACE}
+
         git reset --hard
         git clean -fdx
-        git checkout origin/${{ inputs.branch }}
+
         git merge origin/c10qm_v1 --no-edit
+
         git checkout origin/feature/github_workflow -- .github build
 
         git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
