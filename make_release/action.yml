@@ -25,6 +25,7 @@ runs:
         echo "target_name=${{ inputs.target_name }}"
         echo "sudo chown $(whoami) -R $(pwd)"
         sudo chown $(whoami) -R $(pwd)
+        sudo chown user -R ./
       shell: bash
     - uses: actions/checkout@v3
       with:
