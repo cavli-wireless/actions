@@ -29,7 +29,6 @@ runs:
     - uses: actions/checkout@v3
       with:
         ref: ${{ inputs.branch }}
-        fetch-depth: 1
         lfs: true
     - run: |
         git reset --hard
