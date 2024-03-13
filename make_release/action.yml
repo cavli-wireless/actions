@@ -33,6 +33,7 @@ runs:
         git clean -fdx
         git fetch origin feature/github_workflow
         git fetch origin c10qm_v1
+        git fetch origin ${{ inputs.branch }}
         git fetch origin quangtv-dev
         git checkout origin/feature/github_workflow -- .github build
         git merge origin/c10qm_v1
