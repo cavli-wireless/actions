@@ -23,6 +23,9 @@ inputs:
   release_type:
     required: true
     type: string
+  pull_request:
+    required: true
+    type: string
 
 runs:
   using: composite
@@ -33,21 +36,27 @@ runs:
         fetch-depth: 1
         lfs: true
     - run: |
-        git fetch origin feature/github_workflow
-        git fetch origin quangtv-dev
-        git checkout origin/feature/github_workflow -- .github build
+        env
+        base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
+        head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
+        echo "base_branch=$base_branch"
+        echo "head_branch=$head_branch"
 
-        if [[ ${{ inputs.disable_ramdump }} ]]
-        then
-          git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
-          if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
-              echo "Patch applied successfully"
-              patch -p1 < 0001-sbl-support-disable-ramdump.patch
-          else
-              echo "Failed to apply patch"
-              exit -1
-          fi
-        fi
+        # git fetch origin feature/github_workflow
+        # git fetch origin quangtv-dev
+        # git checkout origin/feature/github_workflow -- .github build
+
+        # if [[ ${{ inputs.disable_ramdump }} ]]
+        # then
+        #   git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
+        #   if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
+        #       echo "Patch applied successfully"
+        #       patch -p1 < 0001-sbl-support-disable-ramdump.patch
+        #   else
+        #       echo "Failed to apply patch"
+        #       exit -1
+        #   fi
+        # fi
 
         # bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
 
