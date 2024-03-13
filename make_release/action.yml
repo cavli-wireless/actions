@@ -34,8 +34,8 @@ runs:
         lfs: true
     - run: |
         echo "sudo chown $(whoami) -R $(pwd)"
-        git reset --hard
-        git clean -fdx
+        sudo git reset --hard
+        sudo git clean -fdx
         git fetch origin feature/github_workflow
         git fetch origin quangtv-dev
         git checkout origin/feature/github_workflow -- .github build
