@@ -49,13 +49,13 @@ runs:
           fi
         fi
 
-        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
+        # bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
 
-        if [[ ${{ inputs.release_type }} == "prerelease" ]]
-        then
-          zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
-          mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
-          cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
-        fi
+        # if [[ ${{ inputs.release_type }} == "prerelease" ]]
+        # then
+        #   zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
+        #   mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+        #   cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+        # fi
 
       shell: bash
