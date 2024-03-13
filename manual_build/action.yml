@@ -47,7 +47,8 @@ runs:
     - run: |
         git fetch origin quangtv-dev
       shell: bash
-    - run: |
+    - name: Checkout and merge
+      run: |
         base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
         head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
         echo "base_branch=$base_branch"
@@ -59,10 +60,12 @@ runs:
         git checkout origin/$base_branch
         git merge origin/$head_branch
       shell: bash
-    - run: |
+    - name: Get build script
+      run: |
         git checkout origin/feature/github_workflow -- .github build
       shell: bash
-    - run: |
+    - name: Disable RAMDUMP
+      run: |
         if [[ ${{ inputs.disable_ramdump }} ]]
         then
           git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
@@ -75,14 +78,14 @@ runs:
           fi
         fi
 
-        # bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
 
-        # if [[ ${{ inputs.release_type }} == "prerelease" ]]
-        # then
-        #   zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
-        #   mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
-        #   cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
-        # fi
+        if [[ ${{ inputs.release_type }} == "prerelease" ]]
+        then
+          zip -r Manual_build_MDM9607_${{ inputs.production }}_${{ inputs.hardware_version }}_${{ inputs.tag_name }}.zip binaries_out
+          mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+          cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
+        fi
         gh auth logout -u github-actions[bot]
         rm -f .token.txt
       shell: bash
