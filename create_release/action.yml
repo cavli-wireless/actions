@@ -37,6 +37,7 @@ runs:
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
         gh release create "Release_MDM9607_${{ inputs.tag_name }}" \
+                          --generate-notes \
                           --target ${{ inputs.branch }} \
                           --repo ${{ github.repository }}
         gh auth logout -u github-actions[bot]
