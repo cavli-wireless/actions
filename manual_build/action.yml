@@ -45,21 +45,27 @@ runs:
         echo "base_branch=$base_branch"
         echo "head_branch=$head_branch"
 
-        # git fetch origin feature/github_workflow
-        # git fetch origin quangtv-dev
-        # git checkout origin/feature/github_workflow -- .github build
+        git fetch origin feature/github_workflow
+        git fetch origin quangtv-dev
+        git fetch origin $base_branch
+        git fetch origin $head_branch
+        git reset --hard
+        git clean -fdx
+        git checkout origin/$base_branch
+        git merge origin/$head_branch
+        git checkout origin/feature/github_workflow -- .github build
 
-        # if [[ ${{ inputs.disable_ramdump }} ]]
-        # then
-        #   git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
-        #   if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
-        #       echo "Patch applied successfully"
-        #       patch -p1 < 0001-sbl-support-disable-ramdump.patch
-        #   else
-        #       echo "Failed to apply patch"
-        #       exit -1
-        #   fi
-        # fi
+        if [[ ${{ inputs.disable_ramdump }} ]]
+        then
+          git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
+          if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
+              echo "Patch applied successfully"
+              patch -p1 < 0001-sbl-support-disable-ramdump.patch
+          else
+              echo "Failed to apply patch"
+              exit -1
+          fi
+        fi
 
         # bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} ${{ inputs.production }} ${{ inputs.build_module }} ${{ inputs.release_type }}
 
