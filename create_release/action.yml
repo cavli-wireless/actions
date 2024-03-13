@@ -21,7 +21,7 @@ runs:
         TAG_NAME="Release_MDM9607_${{ inputs.tag_name }}"
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
-        cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
+        cd ${GITHUB_WORKSPACE}
         echo "Check tag ${TAG_NAME} is exist or not"
         if [[ $( gh release list --repo ${{ github.repository }} | grep  ${TAG_NAME} ) ]]
         then
