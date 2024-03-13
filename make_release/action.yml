@@ -32,8 +32,11 @@ runs:
         git reset --hard
         git clean -fdx
         git fetch origin feature/github_workflow
+        git fetch origin c10qm_v1
         git fetch origin quangtv-dev
         git checkout origin/feature/github_workflow -- .github build
+        git merge origin/c10qm_v1
+
         git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
         if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
             echo "Patch applied successfully"
@@ -42,7 +45,7 @@ runs:
             echo "Failed to apply patch"
             exit -1
         fi
-        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c10qm all release
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c10qm nonhlos release
         zip -r mdm9607_release_${{ inputs.target_name }}_${{ inputs.tag_name }}.zip binaries_out
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
