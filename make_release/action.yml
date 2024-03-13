@@ -21,22 +21,16 @@ runs:
   using: composite
   steps:
     - run: |
-        echo "tag_name=${{ inputs.tag_name }}"
-        echo "target_name=${{ inputs.target_name }}"
-        echo "sudo chown $(whoami) -R $(pwd)"
-        sudo chown $(whoami) -R $(pwd)
-        sudo chown user -R ./
-        sudo rm -rf ./*
+        sudo chown $(whoami) -R ${GITHUB_WORKSPACE}
       shell: bash
     - uses: actions/checkout@v3
       with:
         ref: ${{ inputs.branch }}
-        fetch-depth: 1
         lfs: true
     - run: |
-        echo "sudo chown $(whoami) -R $(pwd)"
-        sudo git reset --hard
-        sudo git clean -fdx
+        cd  ${GITHUB_WORKSPACE}
+        git reset --hard
+        git clean -fdx
         git fetch origin feature/github_workflow
         git fetch origin quangtv-dev
         git checkout origin/feature/github_workflow -- .github build

@@ -18,9 +18,7 @@ runs:
   using: composite
   steps:
     - run: |
-        echo "tag_name=${{ inputs.tag_name }}"
-        echo "target_name=${{ inputs.target_name }}"
-        sudo chown $(whoami) -R $(pwd)
+        sudo chown $(whoami) -R ${GITHUB_WORKSPACE}
       shell: bash
     - run: |
         git fetch origin feature/github_workflow
