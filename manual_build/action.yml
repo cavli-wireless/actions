@@ -37,6 +37,8 @@ runs:
         lfs: true
     - run: |
         env
+        echo "${{ github.token }}" > .token.txt
+        gh auth login --with-token < .token.txt
         base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
         head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
         echo "base_branch=$base_branch"
@@ -66,5 +68,6 @@ runs:
         #   mkdir -p /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
         #   cp *.zip /share/GGDrive_FW/MANUAL_BUILD_RELEASE/MDM9607/
         # fi
-
+        gh auth logout -u github-actions[bot]
+        rm .token.txt
       shell: bash
