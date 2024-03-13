@@ -48,12 +48,15 @@ runs:
         fi
 
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c10qm nonhlos release
+
         zip -r mdm9607_release_${{ inputs.target_name }}_${{ inputs.tag_name }}.zip binaries_out
+
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
         gh release upload "Release_MDM9607_${{ inputs.tag_name }}" mdm9607_release_*.zip --clobber --repo ${{ github.repository }}
         gh auth logout -u github-actions[bot]
         rm .token.txt
+
       shell: bash
       env:
         GH_TOKEN: ${{ env.GH_TOKEN }}
