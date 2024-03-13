@@ -28,6 +28,18 @@ runs:
         ref: ${{ inputs.branch }}
         lfs: true
     - run: |
+    
+        echo "cd  ${GITHUB_WORKSPACE}"
+        echo "git reset --hard"
+        echo "git clean -fdx"
+        echo "git fetch origin feature/github_workflow"
+        echo "git fetch origin c10qm_v1"
+        echo "git fetch origin ${{ inputs.branch }}"
+        echo "git fetch origin quangtv-dev"
+        echo "git checkout origin/${{ inputs.branch }}"
+        echo "git merge origin/c10qm_v1 --no-edit"
+        echo "git checkout origin/feature/github_workflow -- .github build"
+        
         cd  ${GITHUB_WORKSPACE}
         git reset --hard
         git clean -fdx
@@ -35,7 +47,8 @@ runs:
         git fetch origin c10qm_v1
         git fetch origin ${{ inputs.branch }}
         git fetch origin quangtv-dev
-        git merge origin/c10qm_v1
+        git checkout origin/${{ inputs.branch }}
+        git merge origin/c10qm_v1 --no-edit
         git checkout origin/feature/github_workflow -- .github build
 
         git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
