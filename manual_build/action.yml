@@ -49,8 +49,8 @@ runs:
       shell: bash
     - name: Checkout and merge
       run: |
-        base_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json baseRefName | jq '.baseRefName' | tr -d '"')
-        head_branch=$(gh pr view ${{ inputs.pull_request }} --repo cavli-wireless/C10QM_4.14 --json headRefName | jq '.headRefName' | tr -d '"')
+        base_branch=$(gh pr view ${{ inputs.pull_request }} --repo ${{ github.repository }} --json baseRefName | jq '.baseRefName' | tr -d '"')
+        head_branch=$(gh pr view ${{ inputs.pull_request }} --repo ${{ github.repository }} --json headRefName | jq '.headRefName' | tr -d '"')
         echo "base_branch=$base_branch"
         echo "head_branch=$head_branch"
         git fetch origin $base_branch
