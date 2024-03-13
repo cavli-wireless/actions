@@ -34,9 +34,10 @@ runs:
     - run: |
         git reset --hard
         git clean -fdx
-        git merge origin/c10qm_v1
         git fetch origin feature/github_workflow
         git fetch origin quangtv-dev
+        git fetch origin c10qm_v1
+        git merge origin c10qm_v1
         git checkout origin/feature/github_workflow -- .github build
         git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
         if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
