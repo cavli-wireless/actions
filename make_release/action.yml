@@ -26,6 +26,7 @@ runs:
         echo "sudo chown $(whoami) -R $(pwd)"
         sudo chown $(whoami) -R $(pwd)
         sudo chown user -R ./
+        sudo rm -rf ./*
       shell: bash
     - uses: actions/checkout@v3
       with:
