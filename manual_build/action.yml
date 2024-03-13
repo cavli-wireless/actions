@@ -36,6 +36,7 @@ runs:
         fetch-depth: 1
         lfs: true
     - run: |
+        sudo apt install jq
         env
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
