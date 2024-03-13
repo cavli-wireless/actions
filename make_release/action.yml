@@ -32,6 +32,7 @@ runs:
         fetch-depth: 1
         lfs: true
     - run: |
+        echo "sudo chown $(whoami) -R $(pwd)"
         git reset --hard
         git clean -fdx
         git fetch origin feature/github_workflow
