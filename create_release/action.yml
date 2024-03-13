@@ -34,7 +34,7 @@ runs:
           fi
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
-        gh release create "Release_MDM9607_${{ inputs.tag_name }}" --notes-file ./ReleaseNote --target ${{ inputs.branch }}
+        gh release create "Release_MDM9607_${{ inputs.tag_name }}" --target ${{ inputs.branch }}
         gh auth logout -u github-actions[bot]
         rm .token.txt
       shell: bash
