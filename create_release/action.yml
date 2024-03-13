@@ -22,19 +22,19 @@ runs:
         gh auth login --with-token < .token.txt
         cd ${GITHUB_WORKSPACE} && echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}" && ls
         echo "Check tag ${TAG_NAME} is exist or not"
-        if [[ $( gh release list | grep "Release_MDM9607_${{ inputs.tag_name }}" ) ]]
+        if [[ $( gh release list --repo cavli-wireless/C10QM_4.14 | grep "Release_MDM9607_${{ inputs.tag_name }}" ) ]]
         then
           if [[ ${{ inputs.overwrite_tags }} == "true" ]]
           then
             echo "Removing existing tag: ${{ inputs.tag_name }} "
-            gh release delete "Release_MDM9607_${{ inputs.tag_name }}" -y
+            gh release delete --repo cavli-wireless/C10QM_4.14 "Release_MDM9607_${{ inputs.tag_name }}" -y
           else
             echo "Tag exists:"Release_MDM9607_${{ inputs.tag_name }}" "
             exit 1
           fi
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
-        gh release create "Release_MDM9607_${{ inputs.tag_name }}" --target ${{ inputs.branch }}
+        gh release create "Release_MDM9607_${{ inputs.tag_name }}" --target ${{ inputs.branch }} --repo cavli-wireless/C10QM_4.14
         gh auth logout -u github-actions[bot]
         rm .token.txt
       shell: bash
