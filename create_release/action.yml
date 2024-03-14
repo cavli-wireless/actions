@@ -33,7 +33,9 @@ runs:
                  ${TAG_NAME} -y
           else
             echo "Tag exists: ${TAG_NAME} "
-            exit 1
+            gh auth logout -u github-actions[bot]
+            rm .token.txt
+            exit 0
           fi
         fi
         echo "Creating new tag: ${TAG_NAME} ..."
