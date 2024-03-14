@@ -47,8 +47,8 @@ runs:
             exit -1
         fi
 
-        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c20qm nonhlos release
         bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c10qm all release
+        bash build/build.sh ${{ inputs.tag_name }} ${{ inputs.hardware_version }} c20qm modem,meta release
 
         zip -r mdm9607_release_${{ inputs.target_name }}_${{ inputs.tag_name }}.zip binaries_out
 
