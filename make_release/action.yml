@@ -10,6 +10,9 @@ inputs:
     description: Set chipcode module to compile
     required: true
     type: string
+  base_branch:
+    required: true
+    type: string
   branch:
     required: true
     type: string
@@ -34,7 +37,7 @@ runs:
         git reset --hard
         git clean -fdx
 
-        git merge origin/c10qm_v1 --no-edit
+        git merge origin/${{ inputs.base_branch }} --no-edit
 
         git checkout origin/feature/github_workflow -- .github build
 
