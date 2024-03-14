@@ -19,6 +19,9 @@ inputs:
   hardware_version:
     required: true
     type: string
+  merge_production:
+    type: boolean
+    required: false
 
 runs:
   using: composite
@@ -34,10 +37,12 @@ runs:
     - run: |
         cd  ${GITHUB_WORKSPACE}
 
-        git reset --hard
-        git clean -fdx
-
-        git merge origin/${{ inputs.base_branch }} --no-edit
+        if [[ ${{ inputs.merge_production }} == "true" ]]
+        then
+          git reset --hard
+          git clean -fdx
+          git merge origin/${{ inputs.base_branch }} --no-edit
+        fi
 
         git checkout origin/feature/github_workflow -- .github build
 
