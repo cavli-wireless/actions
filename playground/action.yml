@@ -40,7 +40,7 @@ runs:
       shell: bash
 
     - run: |
-        gh pr comment 407 \
+        gh pr comment 406 \
               --repo ${{ github.repository }} \
               --body "This is my comment on the pull request"
       shell: bash
