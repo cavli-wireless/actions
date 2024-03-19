@@ -41,7 +41,7 @@ runs:
         gh auth login --with-token < .token.txt
       shell: bash
     - run: |
-        git fetch origin feature/github_workflow
+        git fetch origin feature/github_workflow_build_cl
       shell: bash
     - run: |
         git fetch origin quangtv-dev
@@ -62,7 +62,7 @@ runs:
       shell: bash
     - name: Get build script
       run: |
-        git checkout origin/feature/github_workflow -- .github build
+        git checkout origin/feature/github_workflow_build_cl -- .github build
       shell: bash
     - name: Disable RAMDUMP
       run: |

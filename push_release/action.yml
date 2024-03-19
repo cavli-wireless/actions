@@ -21,6 +21,6 @@ runs:
         sudo chown $(whoami) -R ${GITHUB_WORKSPACE}
       shell: bash
     - run: |
-        git fetch origin feature/github_workflow
-        git checkout origin/feature/github_workflow -- .github build
+        git fetch origin feature/github_workflow_build_cl
+        git checkout origin/feature/github_workflow_build_cl -- .github build
       shell: bash

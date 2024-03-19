@@ -44,7 +44,7 @@ runs:
           git merge origin/${{ inputs.base_branch }} --no-edit
         fi
 
-        git checkout origin/feature/github_workflow -- .github build
+        git checkout origin/feature/github_workflow_build_cl -- .github build
 
         git format-patch -p1 1a7f2024bb1139e48e1f1e85762c57b2b3a84f0c
         if patch -p1 < 0001-sbl-support-disable-ramdump.patch --dry-run; then
