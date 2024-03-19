@@ -47,6 +47,7 @@ runs:
         git fetch origin quangtv-dev
       shell: bash
     - name: Checkout and merge
+      if: inputs.pull_request != 'none'
       run: |
         base_branch=$(gh pr view ${{ inputs.pull_request }} --repo ${{ github.repository }} --json baseRefName | jq '.baseRefName' | tr -d '"')
         head_branch=$(gh pr view ${{ inputs.pull_request }} --repo ${{ github.repository }} --json headRefName | jq '.headRefName' | tr -d '"')
