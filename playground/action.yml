@@ -43,6 +43,9 @@ runs:
         gh pr comment 406 \
               --repo ${{ github.repository }} \
               --body "Your build is ready at this link, take it as***le"
+        echo "test" > BIGFILE.zip
+        gh pr review 406 --body "Output for verification:" --comment BIGFILE.zip
+
       shell: bash
 
     - run: |
