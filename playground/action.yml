@@ -42,7 +42,7 @@ runs:
     - run: |
         gh pr comment 406 \
               --repo ${{ github.repository }} \
-              --body "This is my comment on the pull request"
+              --body "Your build is ready at this link, take it as***le"
       shell: bash
 
     - run: |
