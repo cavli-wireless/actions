@@ -26,6 +26,9 @@ inputs:
   pull_request:
     required: true
     type: string
+  branch:
+    type: string
+    required: true
 
 runs:
   using: composite
@@ -39,6 +42,7 @@ runs:
         sudo apt install jq -y
         echo "${{ github.token }}" > .token.txt
         gh auth login --with-token < .token.txt
+        echo "inputs.branch=${{ inputs.branch }}"
       shell: bash
     - run: |
         git fetch origin feature/github_workflow_build_cl
