@@ -34,6 +34,7 @@ runs:
   using: composite
   steps:
     - run: chown $(whoami) -R ./*
+      shell: bash
     - uses: actions/checkout@v3
       with:
         ref: ${{ inputs.branch }}
